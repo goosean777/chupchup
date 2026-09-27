@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймеры и Lil Peep</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0d0d11;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .timer-card {
+            background: #16161e;
+            border: 1px solid #262635;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .timer-title {
+            font-size: 0.95rem;
+            color: #8b8b9e;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff4b72;
+            font-family: monospace;
+        }
+
+        .player-card {
+            background: #16161e;
+            border: 1px solid #262635;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .player-title {
+            font-size: 1rem;
+            color: #d1d1e0;
+            margin-bottom: 15px;
+        }
+
+        .player-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #0d0d11;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Первый таймер -->
+    <div class="timer-card">
+        <div class="timer-title">Время, пока ты думаешь</div>
+        <div class="timer-display" id="thinkingTimer">0 дн. 00:00:00</div>
+    </div>
+
+    <!-- Второй таймер -->
+    <div class="timer-card">
+        <div class="timer-title">Сколько времени я страдаю</div>
+        <div class="timer-display" id="sufferingTimer">0 дн. 00:00:00</div>
+    </div>
+
+    <!-- Плеер -->
+    <div class="player-card">
+        <div class="player-title">Ты можешь послушать, пока думаешь</div>
+        <div class="player-container">
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/videoseries?list=PL4fGSI1pTnk69v1J8C6G18y53yA4C3A6P&color=white&theme=dark" 
+                title="Lil Peep Playlist" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Зафиксированная дата отсчета (Формат: ГГГГ-ММ-ДДTHH:mm:ss)
+    // При необходимости вы можете изменить эту дату на любую другую
+    const START_DATE = new Date("2026-09-27T09:45:00").getTime();
+
+    const thinkingDisplay = document.getElementById('thinkingTimer');
+    const sufferingDisplay = document.getElementById('sufferingTimer');
+
+    function updateTimers() {
+        const now = Date.now();
+        const diffInSeconds = Math.floor((now - START_DATE) / 1000);
+
+        if (diffInSeconds < 0) {
+            thinkingDisplay.textContent = "0 дн. 00:00:00";
+            sufferingDisplay.textContent = "0 дн. 00:00:00";
+            return;
+        }
+
+        const days = Math.floor(diffInSeconds / 86400);
+        const hrs = String(Math.floor((diffInSeconds % 86400) / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((diffInSeconds % 3600) / 60)).padStart(2, '0');
+        const secs = String(diffInSeconds % 60).padStart(2, '0');
+
+        const timeString = `${days} дн. ${hrs}:${mins}:${secs}`;
+
+        thinkingDisplay.textContent = timeString;
+        sufferingDisplay.textContent = timeString;
+    }
+
+    setInterval(updateTimers, 1000);
+    updateTimers();
+</script>
+
+</body>
+</html>
